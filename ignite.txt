@@ -1,0 +1,18 @@
+https://www.gridgain.com/docs/tutorials/spring/spring-ignite-tutorial
+
+
+download "binary"(not src) zip file from apache ignite
+set IGNITE_HOME and path
+
+
+>ignite.bat
+
+if we need multiple nodes cluseter run this bat file  multiple times
+
+
+open the {ignite}/examples/sql/world.sql file.
+
+Replace the VALUE_TYPE=demo.model.Country parameter of the CREATE TABLE Country statement with the VALUE_TYPE=spring boot package name.Country
+
+
+

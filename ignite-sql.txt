@@ -1,0 +1,41 @@
+As a SQL database, 
+Ignite supports all DML commands including SELECT, UPDATE, INSERT, and DELETE queries and also implements a subset of DDL commands relevant for distributed systems.
+
+You can interact with Ignite as you would with any other SQL enabled storage by connecting with JDBC or ODBC drivers from both external tools and applications.
+ Java, .NET and C++ developers can leverage native SQL APIs.
+ 
+ Internally, SQL tables have the same data structure as key-value caches.
+ 
+ 
+ 
+ 
+ Transaction support :
+ 
+ To enable MVCC for a cache, use the TRANSACTIONAL_SNAPSHOT atomicity mode in the cache configuration. 
+ If you create a table with the CREATE TABLE command, specify the atomicity mode as a parameter in the WITH part of the command:
+ 
+ 
+ CREATE TABLE Person WITH "ATOMICITY=TRANSACTIONAL_SNAPSHOT"
+ 
+ The TRANSACTIONAL_SNAPSHOT mode is enabled per cache and does not permit caches with different atomicity modes within the same transaction. As a consequence, 
+ if you want to cover multiple tables in one SQL transaction, all tables must be created with the TRANSACTIONAL_SNAPSHOT mode.
+ 
+ 
+ nestedTransactionsMode 
+ 
+ 
+ 
+ Integration :
+ 
+ 
+ Because we typically recommend that all updates to the database go through Ignite, because this way we know what's been updated in the database. We can smartly, obviously, invalidate data in RAM, so we keep it in sync. 
+
+If it doesn't – if it's not possible, then we have solutions like an Oracle GoldenGate product, which we have integration in the enterprise edition. 
+And that basically allows us to have a centrally – think about it as a callback from a database. When something gets updated in database, 
+we get a logical callback to our application and we can invalidate the same entry in cache. 
+But, again, that requires enterprise edition. That requires the GoldenGate product from Oracle to have in place.  
+
+
+
+So on each node, we use a proven H2 database instance. This manages all the actual local MySQL execution and Ignite provides all the distribution logic for how do we distribute the SQL processing, how do we collect results back and whatnot. So is that, I guess, why we're literally predominant SQL engine when it comes to in-memory systems, because 
+we smartly decided not to reinvent the wheel and use something that is available and proven, and really add only where we can add benefits like distribution and parallelization.
